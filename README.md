@@ -1,4 +1,4 @@
-# Evolving Skills Plugin
+# Evolving Skills
 
 Dodo Digital marketplace plugin for creating skills that learn and evolve over time.
 
@@ -7,7 +7,7 @@ Dodo Digital marketplace plugin for creating skills that learn and evolve over t
 ### Codex
 
 ```bash
-codex plugin marketplace add dodo-digital/evolving-skills-plugin
+codex plugin marketplace add dodo-digital/evolving-skills
 ```
 
 Then open Codex, run `/plugins`, install **Evolving Skills** from **Dodo Digital**, and restart Codex.
@@ -15,7 +15,7 @@ Then open Codex, run `/plugins`, install **Evolving Skills** from **Dodo Digital
 ### Claude Code
 
 ```text
-/plugin marketplace add dodo-digital/evolving-skills-plugin
+/plugin marketplace add dodo-digital/evolving-skills
 /plugin install evolving-skills@dodo-digital
 ```
 
