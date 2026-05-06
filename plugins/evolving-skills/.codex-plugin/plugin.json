@@ -15,7 +15,7 @@
     "context-engineering",
     "self-improvement"
   ],
-  "skills": "./skills/",
+  "skills": "./codex-skills/",
   "interface": {
     "displayName": "Evolving Skills",
     "shortDescription": "Create skills that learn, then evolve them without breaking their behavior.",

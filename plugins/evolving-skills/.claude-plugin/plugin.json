@@ -9,6 +9,7 @@
   "homepage": "https://github.com/dodo-digital/evolving-skills",
   "repository": "https://github.com/dodo-digital/evolving-skills",
   "license": "MIT",
+  "skills": "./claude-skills/",
   "keywords": [
     "skills",
     "learnings",

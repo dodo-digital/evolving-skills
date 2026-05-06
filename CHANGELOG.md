@@ -5,4 +5,4 @@
 - Initial public release.
 - Ship the full `create-skill` package for creating learning-enabled skills.
 - Ship `evolve` for promoting skill learnings into durable skill changes.
-- Support both Codex and Claude Code plugin marketplaces from the same repository.
+- Support both Codex and Claude Code plugin marketplaces from the same repository, with platform-specific skill payloads.
