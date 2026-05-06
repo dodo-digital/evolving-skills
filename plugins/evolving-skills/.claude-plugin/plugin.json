@@ -1,0 +1,18 @@
+{
+  "name": "evolving-skills",
+  "version": "0.1.0",
+  "description": "Skills for creating and evolving learning-enabled agent skills over time.",
+  "author": {
+    "name": "Dodo Digital",
+    "url": "https://github.com/dodo-digital"
+  },
+  "homepage": "https://github.com/dodo-digital/evolving-skills-plugin",
+  "repository": "https://github.com/dodo-digital/evolving-skills-plugin",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "learnings",
+    "context-engineering",
+    "self-improvement"
+  ]
+}

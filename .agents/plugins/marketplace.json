@@ -1,0 +1,20 @@
+{
+  "name": "dodo-digital",
+  "interface": {
+    "displayName": "Dodo Digital"
+  },
+  "plugins": [
+    {
+      "name": "evolving-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/evolving-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

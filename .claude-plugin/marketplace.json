@@ -1,0 +1,29 @@
+{
+  "name": "dodo-digital",
+  "owner": {
+    "name": "Dodo Digital",
+    "url": "https://github.com/dodo-digital"
+  },
+  "metadata": {
+    "description": "Dodo Digital plugin marketplace for Claude Code and Codex extensions",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "evolving-skills",
+      "description": "Create skills that learn, then evolve them without breaking their behavior.",
+      "author": {
+        "name": "Dodo Digital",
+        "url": "https://github.com/dodo-digital"
+      },
+      "homepage": "https://github.com/dodo-digital/evolving-skills-plugin",
+      "tags": [
+        "skills",
+        "learnings",
+        "context-engineering",
+        "self-improvement"
+      ],
+      "source": "./plugins/evolving-skills"
+    }
+  ]
+}

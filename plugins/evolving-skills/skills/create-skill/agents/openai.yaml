@@ -1,0 +1,7 @@
+interface:
+  display_name: "Create Skill"
+  short_description: "Create and audit Codex skills"
+  default_prompt: "Use $create-skill to create a context-efficient Codex skill for my workflow."
+
+policy:
+  allow_implicit_invocation: true
