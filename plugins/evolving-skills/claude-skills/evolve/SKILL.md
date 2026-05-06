@@ -1,13 +1,13 @@
 ---
 name: evolve
-description: Evolve a specific Claude Code skill from its learnings without damaging its routing or execution behavior. Use when the user says to run Evolve on a skill, improve a skill based on learnings, update a skill's SKILL.md, promote learnings into workflows or references, or clear learnings after incorporating them.
+description: Evolve one or more Claude Code skills from their learnings without damaging routing or execution behavior. Use when the user says to run Evolve on a skill, improve skills based on learnings, update SKILL.md files, promote learnings into workflows or references, clear learnings after incorporating them, or batch-evolve several named skills.
 context_budget:
   skill_md: 240
   learnings_md: 40
 ---
 
 <objective>
-Turn a target skill's accumulated `learnings.md` entries into durable improvements while preserving the skill as a functional agent artifact. Evolve may update `SKILL.md`, workflows, references, templates, scripts, or validation docs, then reset `learnings.md` only after useful knowledge has been promoted or explicitly dismissed.
+Turn each target skill's accumulated `learnings.md` entries into durable improvements while preserving the skill as a functional agent artifact. Evolve may update `SKILL.md`, workflows, references, templates, scripts, or validation docs, then reset each target's `learnings.md` only after useful knowledge has been promoted or explicitly dismissed.
 </objective>
 
 <skill_model>
@@ -22,7 +22,7 @@ Treat the target skill as a working system:
 </skill_model>
 
 <target_resolution>
-If the user provides a path, use it. If the user provides a skill name, look in likely skill roots:
+If the user provides paths, use them. If the user provides skill names, look in likely skill roots:
 
 1. Current repo skill/plugin directories
 2. `.claude/skills/<skill-name>`
@@ -30,28 +30,33 @@ If the user provides a path, use it. If the user provides a skill name, look in 
 4. `~/plugins/*/claude-skills/<skill-name>`
 5. `~/plugins/*/skills/<skill-name>`
 
-Stop and ask for a path only when multiple plausible targets exist or none can be found.
+Build `target_queue` from every requested skill. Stop and ask for clarification only for ambiguous or missing targets; keep already-resolved targets queued. If the user asks to evolve a folder of skills, enumerate only direct child directories that contain `SKILL.md`.
 </target_resolution>
 
 <context_boundaries>
-After resolving the target, set `target_skill_dir` to the directory containing the target `SKILL.md`. Only inspect files inside `target_skill_dir`: `SKILL.md`, root `learnings.md`, and direct subdirectories such as `workflows/`, `references/`, `templates/`, `scripts/`, or `agents/`.
+For each queued target, set `target_skill_dir` to the directory containing that target's `SKILL.md`. Only inspect files inside the active `target_skill_dir`: `SKILL.md`, root `learnings.md`, and direct subdirectories such as `workflows/`, `references/`, `templates/`, `scripts/`, or `agents/`.
 
 Do not scan sibling skills, project-wide `skills/` folders, example outputs, or skills that Create Skill generated. If the target skill creates other skills, those generated skills are outputs, not context for evolving the target. Inspect an output skill only when the user explicitly names that output skill as the target.
+
+`target_queue` and `target_skill_dir` are transient labels for the current run only. Do not write queue files, target files, evolution logs, archives, registries, status files, or other tracking artifacts unless the user explicitly asks. Persist only the intended edits to target skill files and the reset of that target's `learnings.md`.
 </context_boundaries>
 
 <process>
-1. Read the target `SKILL.md` and root `learnings.md`.
-2. If `learnings.md` has no dated entries, report that there is nothing to evolve and leave the file unchanged.
-3. Inspect the target skill shape before editing: frontmatter, objective, routing/trigger logic, process steps, success criteria, learning capture, and relevant files inside `target_skill_dir`.
-4. Classify each learning:
+1. Resolve all requested skill names or paths into `target_queue`.
+2. Process `target_queue` sequentially, one skill at a time. Do not merge learnings across skills.
+3. For the active target, read `SKILL.md` and root `learnings.md`.
+4. If the active target's `learnings.md` has no dated entries, record "no learnings" for that target and leave the file unchanged.
+5. Inspect the active target skill shape before editing: frontmatter, objective, routing/trigger logic, process steps, success criteria, learning capture, and relevant files inside `target_skill_dir`.
+6. Classify each learning:
    - Promote: durable routing text, instruction, validation step, process change, workflow update, reference note, template adjustment, script/tooling note, or gotcha
    - Discard: task fact, project fact, output content, duplicate, or stale entry
    - Needs user judgment: ambiguous preference or behavior-changing rule with meaningful tradeoffs
-5. Decide the smallest functional change that prevents the issue from recurring.
-6. Apply low-risk changes directly when the user asked to evolve the skill. Stop for user judgment when a learning implies a major behavior change, contradicts existing design, or would make the skill more complex without clear payoff.
-7. Validate that the evolved skill still has clear trigger text, a coherent process, valid context budget, learning capture, and success criteria.
-8. Clear `learnings.md` back to the standard template only after promoted or discarded entries are accounted for.
-9. Report changed files, what changed functionally, and any entries that were not incorporated.
+7. Decide the smallest functional change that prevents the issue from recurring for that target.
+8. Apply low-risk changes directly when the user asked to evolve the skill. Stop the batch for user judgment when a learning implies a major behavior change, contradicts existing design, or would make the skill more complex without clear payoff.
+9. Validate that the active target still has clear trigger text, a coherent process, valid context budget, learning capture, and success criteria.
+10. Clear the active target's `learnings.md` back to the standard template only after its promoted or discarded entries are accounted for.
+11. Continue to the next queued target.
+12. Report changed files grouped by skill, what changed functionally, skipped targets, and any entries that were not incorporated.
 </process>
 
 <change_targets>
@@ -87,6 +92,7 @@ Before clearing learnings, verify:
 4. Any moved knowledge is reachable from `SKILL.md` through explicit required reading, routing, or process instructions.
 5. The evolved behavior addresses each promoted learning.
 6. No non-target skills or generated skill outputs were loaded as context.
+7. No temporary queue, target, log, archive, registry, or status files were created.
 </functional_validation>
 
 <reset_template>
@@ -107,14 +113,17 @@ Append entries in this parseable shape:
 
 <success_criteria>
 - [ ] Target skill was unambiguous
-- [ ] Context stayed inside `target_skill_dir`
-- [ ] `SKILL.md` and `learnings.md` were read
+- [ ] All requested targets were resolved into `target_queue` or reported as ambiguous/missing
+- [ ] Each target was processed sequentially
+- [ ] Context stayed inside the active `target_skill_dir`
+- [ ] Each target's `SKILL.md` and `learnings.md` were read
 - [ ] Related workflows, references, templates, or scripts were inspected when relevant
 - [ ] Each learning was promoted, discarded, or flagged for user judgment
 - [ ] Durable improvements were applied to the correct skill surface
 - [ ] `SKILL.md` still routes and executes clearly
-- [ ] `learnings.md` was reset only after entries were handled
-- [ ] Final response lists changed files and unincorporated entries
+- [ ] Each `learnings.md` was reset only after that target's entries were handled
+- [ ] Final response lists changed files and unincorporated entries grouped by skill
+- [ ] No temporary tracking artifacts were left behind
 </success_criteria>
 
 <learning_capture>
