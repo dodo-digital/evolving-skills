@@ -33,10 +33,16 @@ If the user provides a path, use it. If the user provides a skill name, look in 
 Stop and ask for a path only when multiple plausible targets exist or none can be found.
 </target_resolution>
 
+<context_boundaries>
+After resolving the target, set `target_skill_dir` to the directory containing the target `SKILL.md`. Only inspect files inside `target_skill_dir`: `SKILL.md`, root `learnings.md`, and direct subdirectories such as `workflows/`, `references/`, `templates/`, `scripts/`, or `agents/`.
+
+Do not scan sibling skills, project-wide `skills/` folders, example outputs, or skills that Create Skill generated. If the target skill creates other skills, those generated skills are outputs, not context for evolving the target. Inspect an output skill only when the user explicitly names that output skill as the target.
+</context_boundaries>
+
 <process>
 1. Read the target `SKILL.md` and root `learnings.md`.
 2. If `learnings.md` has no dated entries, report that there is nothing to evolve and leave the file unchanged.
-3. Inspect the skill shape before editing: frontmatter, objective, routing/trigger logic, process steps, success criteria, learning capture, and nearby workflows/references/templates/scripts.
+3. Inspect the target skill shape before editing: frontmatter, objective, routing/trigger logic, process steps, success criteria, learning capture, and relevant files inside `target_skill_dir`.
 4. Classify each learning:
    - Promote: durable routing text, instruction, validation step, process change, workflow update, reference note, template adjustment, script/tooling note, or gotcha
    - Discard: task fact, project fact, output content, duplicate, or stale entry
@@ -80,6 +86,7 @@ Before clearing learnings, verify:
 3. The body still tells an agent what to do, in what order, and how to know it is done.
 4. Any moved knowledge is reachable from `SKILL.md` through explicit required reading, routing, or process instructions.
 5. The evolved behavior addresses each promoted learning.
+6. No non-target skills or generated skill outputs were loaded as context.
 </functional_validation>
 
 <reset_template>
@@ -100,6 +107,7 @@ Append entries in this parseable shape:
 
 <success_criteria>
 - [ ] Target skill was unambiguous
+- [ ] Context stayed inside `target_skill_dir`
 - [ ] `SKILL.md` and `learnings.md` were read
 - [ ] Related workflows, references, templates, or scripts were inspected when relevant
 - [ ] Each learning was promoted, discarded, or flagged for user judgment
