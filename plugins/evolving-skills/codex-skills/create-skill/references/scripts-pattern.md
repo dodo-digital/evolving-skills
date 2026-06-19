@@ -1,6 +1,6 @@
 # Scripts Pattern
 
-Scripts are executable code Codex runs as-is rather than regenerating each time.
+Scripts are executable code Claude runs as-is rather than regenerating each time.
 
 ## When to Use Scripts
 
@@ -80,9 +80,9 @@ Workflow says WHEN. Script handles HOW.
 
 ## The Loader + Knowledge Pattern
 
-For scripts that interact with external formats (file exports, API responses, tool output), keep the script dumb and put the intelligence in a knowledge file Codex can read and update.
+For scripts that interact with external formats (file exports, API responses, tool output), keep the script dumb and put the intelligence in a knowledge file Claude can read and update.
 
-**Boundary rule:** If this knowledge might change, it belongs in a `.md` file Codex can read/write — not in the script.
+**Boundary rule:** If this knowledge might change, it belongs in a `.md` file Claude can read/write — not in the script.
 
 ### Structure
 
@@ -106,7 +106,7 @@ references/schema.md        ← Living knowledge: what the structure means
 
 ### Why This Works
 
-Scripts break when external formats change. Knowledge files adapt because Codex reads them, compares to reality, updates them, and proceeds. Each run makes the next run more resilient.
+Scripts break when external formats change. Knowledge files adapt because Claude reads them, compares to reality, updates them, and proceeds. Each run makes the next run more resilient.
 
 See `references/skill-evolution.md` for the full self-healing flow and living knowledge file patterns.
 
@@ -127,4 +127,4 @@ See `references/skill-evolution.md` for the full self-healing flow and living kn
 - Skip error handling
 - Forget `chmod +x`
 - Encode expected values in scripts (put them in knowledge files)
-- Let scripts make decisions Codex should make
+- Let scripts make decisions Claude should make

@@ -1,372 +1,203 @@
 <overview>
-Skills have three structural components: YAML frontmatter (metadata), pure XML body structure (content organization), and progressive disclosure (file organization). This reference defines requirements and best practices for each component.
+Skills have three structural layers: YAML frontmatter for discovery, XML body content for execution, and supporting files for progressive disclosure.
 </overview>
 
-<xml_structure_requirements>
-<critical_rule>
-**Remove ALL markdown headings (#, ##, ###) from skill body content.** Replace with semantic XML tags. Keep markdown formatting WITHIN content (bold, italic, lists, code blocks, links).
-</critical_rule>
-
-<required_tags>
-Every skill MUST have these three tags:
-
-- **`<objective>`** - What the skill does and why it matters (1-3 paragraphs)
-- **`<quick_start>`** - Immediate, actionable guidance (minimal working example)
-- **`<success_criteria>`** or **`<when_successful>`** - How to know it worked
-</required_tags>
-
-<conditional_tags>
-Add based on skill complexity and domain requirements:
-
-- **`<context>`** - Background/situational information
-- **`<workflow>` or `<process>`** - Step-by-step procedures
-- **`<advanced_features>`** - Deep-dive topics (progressive disclosure)
-- **`<validation>`** - How to verify outputs
-- **`<examples>`** - Multi-shot learning
-- **`<anti_patterns>`** - Common mistakes to avoid
-- **`<security_checklist>`** - Non-negotiable security patterns
-- **`<testing>`** - Testing workflows
-- **`<common_patterns>`** - Code examples and recipes
-- **`<reference_guides>` or `<detailed_references>`** - Links to reference files
-
-See [use-xml-tags.md](use-xml-tags.md) for detailed guidance on each tag.
-</conditional_tags>
-
-<tag_selection_intelligence>
-**Simple skills** (single domain, straightforward):
-- Required tags only
-- Example: Text extraction, file format conversion
-
-**Medium skills** (multiple patterns, some complexity):
-- Required tags + workflow/examples as needed
-- Example: Document processing with steps, API integration
-
-**Complex skills** (multiple domains, security, APIs):
-- Required tags + conditional tags as appropriate
-- Example: Payment processing, authentication systems, multi-step workflows
-</tag_selection_intelligence>
-
-<xml_nesting>
-Properly nest XML tags for hierarchical content:
-
-```xml
-<examples>
-<example number="1">
-<input>User input</input>
-<output>Expected output</output>
-</example>
-</examples>
-```
-
-Always close tags:
-```xml
-<objective>
-Content here
-</objective>
-```
-</xml_nesting>
-
-<tag_naming_conventions>
-Use descriptive, semantic names:
-- `<workflow>` not `<steps>`
-- `<success_criteria>` not `<done>`
-- `<anti_patterns>` not `<dont_do>`
-
-Be consistent within your skill. If you use `<workflow>`, don't also use `<process>` for the same purpose (unless they serve different roles).
-</tag_naming_conventions>
-</xml_structure_requirements>
-
-<yaml_requirements>
-<required_fields>
+<frontmatter>
+Required for all skills:
 ```yaml
 ---
-name: skill-name-here
-description: What it does and when to use it (third person, specific triggers)
+name: skill-name
+context_budget:
+  skill_md: 150
+  learnings_md: 40
 ---
 ```
-</required_fields>
 
-<name_field>
-**Validation rules**:
-- Maximum 64 characters
-- Lowercase letters, numbers, hyphens only
-- No XML tags
-- No reserved words: "anthropic", "claude"
-- Must match directory name exactly
-
-**Examples**:
-- ✅ `process-pdfs`
-- ✅ `manage-facebook-ads`
-- ✅ `setup-stripe-payments`
-- ❌ `PDF_Processor` (uppercase)
-- ❌ `helper` (vague)
-- ❌ `claude-helper` (reserved word)
-</name_field>
-
-<description_field>
-**Validation rules**:
-- Non-empty, maximum 1024 characters
-- No XML tags
-- Third person (never first or second person)
-- Include what it does AND when to use it
-
-**Critical rule**: Always write in third person.
-- ✅ "Processes Excel files and generates reports"
-- ❌ "I can help you process Excel files"
-- ❌ "You can use this to process Excel files"
-
-**Structure**: Include both capabilities and triggers.
-
-**Effective examples**:
+Model-invoked skills also need a retrieval description:
 ```yaml
-description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
+description: Create concise skill files. Use when authoring or improving SKILL.md files.
 ```
 
+User-invoked-only skills should avoid accidental retrieval:
 ```yaml
-description: Analyze Excel spreadsheets, create pivot tables, generate charts. Use when analyzing Excel files, spreadsheets, tabular data, or .xlsx files.
+disable-model-invocation: true
+```
+</frontmatter>
+
+<name_rules>
+`name:` must:
+- Match the directory name
+- Use lowercase letters, numbers, and hyphens
+- Be 64 characters or fewer
+- Avoid reserved names and vague helpers
+
+Prefer verb-noun names:
+- `create-skill`
+- `audit-contracts`
+- `manage-dns-records`
+- `generate-concept-brief`
+
+Avoid:
+- `helper`
+- `utils`
+- `documents`
+- Directory/name mismatches
+</name_rules>
+
+<description_rules>
+For model-invoked skills, `description:` is functional code.
+
+Rules:
+- Third person
+- Front-load the leading action word
+- Say what the skill does and when to use it
+- Avoid synonym stuffing
+- Include handoff conditions only when another skill should invoke it
+
+Good:
+```yaml
+description: Analyze Excel spreadsheets, create pivot tables, and generate charts. Use when working with spreadsheets, tabular data, or .xlsx files.
 ```
 
+Weak:
 ```yaml
-description: Generate descriptive commit messages by analyzing git diffs. Use when the user asks for help writing commit messages or reviewing staged changes.
+description: Helps with data.
+```
+</description_rules>
+
+<xml_body>
+Use pure XML tags in skill bodies. Do not use markdown headings for top-level structure.
+
+Required tags:
+- `<objective>`: what the skill accomplishes
+- `<quick_start>`: fastest safe path for the common case
+- `<success_criteria>` or `<when_successful>`: observable completion checks
+
+Common optional tags:
+- `<essential_principles>`
+- `<intake>`
+- `<routing>`
+- `<references_index>`
+- `<templates_index>`
+- `<process>`
+- `<validation>`
+- `<examples>`
+- `<anti_patterns>`
+
+Keep markdown lists, tables, and code blocks inside XML tags when useful.
+</xml_body>
+
+<tag_rules>
+Use semantic tag names:
+- `<process>` for ordered execution
+- `<success_criteria>` for done checks
+- `<references_index>` for loadable files
+- `<routing>` for branch selection
+
+Avoid mixing tag names for the same concept. If one file uses `<process>`, do not use `<workflow>` elsewhere for the same role unless it has a distinct meaning.
+
+Close every tag.
+</tag_rules>
+
+<directory_patterns>
+Simple skill:
+```text
+skill-name/
+├── SKILL.md
+└── learnings.md
 ```
 
-**Avoid**:
-```yaml
-description: Helps with documents
+Router skill:
+```text
+skill-name/
+├── SKILL.md
+├── learnings.md
+├── workflows/
+├── references/
+└── templates/
 ```
 
-```yaml
-description: Processes data
+Reference skill:
+```text
+skill-name/
+├── SKILL.md
+├── learnings.md
+└── resources/
 ```
-</description_field>
-</yaml_requirements>
 
-<naming_conventions>
-Use **verb-noun convention** for skill names:
-
-<pattern name="create">
-Building/authoring tools
-
-Examples: `create-agent-skills`, `create-hooks`, `create-landing-pages`
-</pattern>
-
-<pattern name="manage">
-Managing external services or resources
-
-Examples: `manage-facebook-ads`, `manage-zoom`, `manage-stripe`, `manage-supabase`
-</pattern>
-
-<pattern name="setup">
-Configuration/integration tasks
-
-Examples: `setup-stripe-payments`, `setup-meta-tracking`
-</pattern>
-
-<pattern name="generate">
-Generation tasks
-
-Examples: `generate-ai-images`
-</pattern>
-
-<avoid_patterns>
-- Vague: `helper`, `utils`, `tools`
-- Generic: `documents`, `data`, `files`
-- Reserved words: `anthropic-helper`, `claude-tools`
-- Inconsistent: Directory `facebook-ads` but name `facebook-ads-manager`
-</avoid_patterns>
-</naming_conventions>
+Orchestrator skill:
+```text
+skill-name/
+├── SKILL.md
+├── learnings.md
+├── workflows/
+├── references/sub-agents.md
+└── templates/
+```
+</directory_patterns>
 
 <progressive_disclosure>
-<principle>
-SKILL.md serves as an overview that points to detailed materials as needed. This keeps context window usage efficient.
-</principle>
+Progressive disclosure follows branch boundaries.
 
-<practical_guidance>
-- Keep SKILL.md body under 500 lines
-- Split content into separate files when approaching this limit
-- Keep references one level deep from SKILL.md
-- Add table of contents to reference files over 100 lines
-</practical_guidance>
+Keep inline:
+- Rules every branch needs
+- Routing and intake
+- Short indexes with when-to-read pointers
+- Success criteria
 
-<pattern name="high_level_guide">
-Quick start in SKILL.md, details in reference files:
+Move out:
+- Branch-specific procedures
+- Long examples
+- Domain knowledge
+- API details
+- Reusable output templates
 
-```markdown
----
-name: pdf-processing
-description: Extracts text and tables from PDF files, fills forms, and merges documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
----
-
-<objective>
-Extract text and tables from PDF files, fill forms, and merge documents using Python libraries.
-</objective>
-
-<quick_start>
-Extract text with pdfplumber:
-
-```python
-import pdfplumber
-with pdfplumber.open("file.pdf") as pdf:
-    text = pdf.pages[0].extract_text()
-```
-</quick_start>
-
-<advanced_features>
-**Form filling**: See [forms.md](forms.md)
-**API reference**: See [reference.md](reference.md)
-</advanced_features>
-```
-
-Claude loads forms.md or reference.md only when needed.
-</pattern>
-
-<pattern name="domain_organization">
-For skills with multiple domains, organize by domain to avoid loading irrelevant context:
-
-```
-bigquery-skill/
-├── SKILL.md (overview and navigation)
-└── reference/
-    ├── finance.md (revenue, billing metrics)
-    ├── sales.md (opportunities, pipeline)
-    ├── product.md (API usage, features)
-    └── marketing.md (campaigns, attribution)
-```
-
-When user asks about revenue, Claude reads only finance.md. Other files stay on filesystem consuming zero tokens.
-</pattern>
-
-<pattern name="conditional_details">
-Show basic content in SKILL.md, link to advanced in reference files:
-
-```xml
-<objective>
-Process DOCX files with creation and editing capabilities.
-</objective>
-
-<quick_start>
-<creating_documents>
-Use docx-js for new documents. See [docx-js.md](docx-js.md).
-</creating_documents>
-
-<editing_documents>
-For simple edits, modify XML directly.
-
-**For tracked changes**: See [redlining.md](redlining.md)
-**For OOXML details**: See [ooxml.md](ooxml.md)
-</editing_documents>
-</quick_start>
-```
-
-Claude reads redlining.md or ooxml.md only when the user needs those features.
-</pattern>
-
-<critical_rules>
-**Keep references one level deep**: All reference files should link directly from SKILL.md. Avoid nested references (SKILL.md → advanced.md → details.md) as Claude may only partially read deeply nested files.
-
-**Add table of contents to long files**: For reference files over 100 lines, include a table of contents at the top.
-
-**Use pure XML in reference files**: Reference files should also use pure XML structure (no markdown headings in body).
-</critical_rules>
+References should be one level deep from SKILL.md or the workflow that requires them.
 </progressive_disclosure>
 
-<file_organization>
-<filesystem_navigation>
-Claude navigates your skill directory using bash commands:
+<reference_pointers>
+Index entries should tell the agent when to read the file.
 
-- Use forward slashes: `reference/guide.md` (not `reference\guide.md`)
-- Name files descriptively: `form_validation_rules.md` (not `doc2.md`)
-- Organize by domain: `reference/finance.md`, `reference/sales.md`
-</filesystem_navigation>
-
-<directory_structure>
-Typical skill structure:
-
-```
-skill-name/
-├── SKILL.md (main entry point, pure XML structure)
-├── references/ (optional, for progressive disclosure)
-│   ├── guide-1.md (pure XML structure)
-│   ├── guide-2.md (pure XML structure)
-│   └── examples.md (pure XML structure)
-└── scripts/ (optional, for utility scripts)
-    ├── validate.py
-    └── process.py
-```
-</directory_structure>
-</file_organization>
-
-<anti_patterns>
-<pitfall name="markdown_headings_in_body">
-❌ Do NOT use markdown headings in skill body:
-
-```markdown
-# PDF Processing
-
-## Quick start
-Extract text...
-
-## Advanced features
-Form filling...
-```
-
-✅ Use pure XML structure:
-
+Good:
 ```xml
-<objective>
-PDF processing with text extraction, form filling, and merging.
-</objective>
-
-<quick_start>
-Extract text...
-</quick_start>
-
-<advanced_features>
-Form filling...
-</advanced_features>
+<references_index>
+| Reference | Purpose |
+|-----------|---------|
+| references/api.md | Read when validating API endpoints or auth behavior |
+</references_index>
 ```
-</pitfall>
 
-<pitfall name="vague_descriptions">
-- ❌ "Helps with documents"
-- ✅ "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction."
-</pitfall>
+Weak:
+```xml
+| references/api.md | API docs |
+```
+</reference_pointers>
 
-<pitfall name="inconsistent_pov">
-- ❌ "I can help you process Excel files"
-- ✅ "Processes Excel files and generates reports"
-</pitfall>
+<file_rules>
+Use:
+- Forward slashes in paths
+- Descriptive filenames
+- One concern per reference
+- Root `learnings.md` for execution learnings
+- `scripts/` for reusable I/O and validation
 
-<pitfall name="wrong_naming_convention">
-- ❌ Directory: `facebook-ads`, Name: `facebook-ads-manager`
-- ✅ Directory: `manage-facebook-ads`, Name: `manage-facebook-ads`
-- ❌ Directory: `stripe-integration`, Name: `stripe`
-- ✅ Directory: `setup-stripe-payments`, Name: `setup-stripe-payments`
-</pitfall>
-
-<pitfall name="deeply_nested_references">
-Keep references one level deep from SKILL.md. Claude may only partially read nested files (SKILL.md → advanced.md → details.md).
-</pitfall>
-
-<pitfall name="windows_paths">
-Always use forward slashes: `scripts/helper.py` (not `scripts\helper.py`)
-</pitfall>
-
-<pitfall name="missing_required_tags">
-Every skill must have: `<objective>`, `<quick_start>`, and `<success_criteria>` (or `<when_successful>`).
-</pitfall>
-</anti_patterns>
+Avoid:
+- Nested reference chains
+- Files over the declared line budget
+- Scripts that encode domain knowledge better stored in markdown
+- Duplicate rules across SKILL.md and references
+</file_rules>
 
 <validation_checklist>
-Before finalizing a skill, verify:
-
-- ✅ YAML frontmatter valid (name matches directory, description in third person)
-- ✅ No markdown headings in body (pure XML structure)
-- ✅ Required tags present: objective, quick_start, success_criteria
-- ✅ Conditional tags appropriate for complexity level
-- ✅ All XML tags properly closed
-- ✅ Progressive disclosure applied (SKILL.md < 500 lines)
-- ✅ Reference files use pure XML structure
-- ✅ File paths use forward slashes
-- ✅ Descriptive file names
+Before finalizing:
+- [ ] Frontmatter mode is explicit
+- [ ] `name` matches directory
+- [ ] Model-invoked `description` has trigger language
+- [ ] Body uses XML top-level tags
+- [ ] Required tags are present
+- [ ] References are indexed with when-to-read pointers
+- [ ] Branch-specific content is outside SKILL.md
+- [ ] Process steps have completion criteria
+- [ ] Root `learnings.md` exists
+- [ ] Line budgets are respected
 </validation_checklist>

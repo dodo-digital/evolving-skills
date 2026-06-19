@@ -26,7 +26,7 @@ Use for skills that spawn sub-agents for context isolation. SKILL.md max 200 lin
 ```markdown
 ---
 name: {skill-name}
-description: {What it does using sub-agents}. Use when {triggers}. {Third person}
+description: {Leading verb + what it does using sub-agents}. Use when {triggers}. {Third person}
 context_budget:
   skill_md: 150
   max_references: 4
@@ -65,7 +65,7 @@ context_budget:
 | Reference | Purpose |
 |-----------|---------|
 | references/sub-agents.md | Agent definitions with prompts |
-| references/{domain}.md | {Description} |
+| references/{domain}.md | Read when {loading condition} |
 </references_index>
 
 {Insert canonical <learning_capture> block from references/learning-capture.md}
@@ -202,6 +202,7 @@ Orchestrate sub-agents to gather context and produce {output}.
 <process>
 1. **Parse user input** [MEDIUM freedom]
    Extract: {what to extract}
+   Done when all required inputs are present or missing inputs are escalated.
 
 2. **Spawn research agents in parallel** [LOW freedom]
    Use Task tools (TaskCreate with dependencies, TeamCreate for teams).
@@ -212,28 +213,34 @@ Orchestrate sub-agents to gather context and produce {output}.
      {Agent3}(topic={topic})
    ])
    ```
+   Done when every independent source has a running or completed agent.
 
 3. **Wait for all agents** [LOW freedom]
    Collect summaries from each agent.
+   Done when each agent has returned within its word limit or has a documented failure.
 
 4. **Synthesize context** [MEDIUM freedom]
    Combine findings into unified context:
    - Common themes
    - Key insights
    - Actionable patterns
+   Done when contradictions are resolved or explicitly surfaced.
 
 5. **Generate output** [HIGH freedom]
    Using synthesized context, produce {output type}.
    Follow principles in references/{style}.md.
+   Done when output addresses the user request using synthesized context.
 
 6. **Validate** [LOW freedom]
    Run validation checks:
    - [ ] {Check 1}
    - [ ] {Check 2}
    - [ ] {Check 3}
+   Done when validation passes or issues are reported with fixes.
 
 7. **Return result** [LOW freedom]
    Return output with validation notes.
+   Done when the user receives the final output and validation status.
 </process>
 
 <success_criteria>

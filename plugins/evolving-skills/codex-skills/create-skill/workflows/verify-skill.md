@@ -9,9 +9,9 @@ Verify that a skill's content is still accurate. Skills reference external APIs,
 <process>
 1. **Select skill** [LOW freedom]
    ```bash
-   ls ~/.codex/skills/
+   ls .agents/skills/
    ```
-   Ask which skill to verify.
+   Ask which skill to verify, or infer from the supplied path.
 
 2. **Read and categorize** [MEDIUM freedom]
    Read entire skill (SKILL.md + workflows/ + references/).
@@ -19,9 +19,9 @@ Verify that a skill's content is still accurate. Skills reference external APIs,
    Categorize by dependency type:
    | Type | Examples | Verification Method |
    |------|----------|---------------------|
-   | API/Service | Attio, Stripe | Current official docs or primary-source web search |
+   | API/Service | Attio, Stripe | Context7 + WebSearch |
    | CLI Tools | git, npm | Run commands |
-   | Framework | Rails, React | Current official docs or primary-source web search |
+   | Framework | Rails, React | Context7 docs |
    | Pure Process | decision-traces | No external deps |
 
 3. **Extract verifiable claims** [MEDIUM freedom]
@@ -40,10 +40,13 @@ Verify that a skill's content is still accurate. Skills reference external APIs,
    ```
 
    **API/Service:**
-   Use official docs or primary-source web search for current behavior. Prefer local CLI help and installed package docs when verifying tools already available on the machine.
+   ```
+   mcp__context7__resolve-library-id: {service-name}
+   mcp__context7__get-library-docs: {library-id}, topic: {feature}
+   ```
 
    **Framework:**
-   Use official docs or primary-source web search for current docs. Check if patterns have changed.
+   Use Context7 for current docs. Check if patterns have changed.
 
 5. **Generate freshness report** [LOW freedom]
    ```

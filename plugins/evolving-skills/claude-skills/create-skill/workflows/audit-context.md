@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - references/context-budget.md
 - references/validation-checklist.md
 - references/common-patterns.md
@@ -36,9 +37,12 @@ Audit an existing skill for context efficiency, identifying improvements to redu
 3. **Check structure patterns**
    - [ ] Uses pure XML (no markdown headings)?
    - [ ] Has context_budget in frontmatter?
+   - [ ] Invocation mode explicit?
    - [ ] Each workflow has `<required_reading>`?
+   - [ ] Required-reading pointers say when to read each file?
    - [ ] References are one level deep?
    - [ ] Success criteria uses checkboxes?
+   - [ ] Each process step has completion criterion?
 
 4. **Conciseness review**
    For each section, evaluate:
@@ -46,6 +50,9 @@ Audit an existing skill for context efficiency, identifying improvements to redu
    - Could this be shorter?
    - Should this be in a reference instead of inline?
    - Is this duplicated elsewhere?
+   - Is this a no-op sentence whose removal would not change execution?
+   - Is this sediment from an older version of the skill?
+   - Does this file mix unrelated branches?
 
 5. **Freedom level review**
    For each process step:
@@ -53,6 +60,7 @@ Audit an existing skill for context efficiency, identifying improvements to redu
    - High freedom steps: are they principles-based?
    - Low freedom steps: are they exact scripts?
    - Any mismatch between fragility and specificity?
+   - Does each step define what makes it complete?
 
 6. **Generate report**
    ```

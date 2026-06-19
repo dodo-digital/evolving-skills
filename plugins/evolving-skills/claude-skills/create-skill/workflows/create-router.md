@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - references/context-budget.md
 - references/xml-structure.md
 - references/degrees-of-freedom.md
@@ -30,9 +31,12 @@ Create a router-pattern skill with SKILL.md routing to workflows and references.
    - What knowledge is shared across uses? (these become references)
    - What outputs does it produce? (these might need templates)
    - When should it trigger?
+   - Which branches are mutually exclusive, and which need priority order?
+   Done when branches, shared context, and invocation mode are explicit.
 
 2. **Design the structure**
    ```
+   Done when branch-specific content lives outside SKILL.md and shared content stays inline or indexed.
    skill-name/
    ├── SKILL.md              # Router (max 200 lines)
    ├── learnings.md          # Execution learnings for future runs
@@ -50,22 +54,26 @@ Create a router-pattern skill with SKILL.md routing to workflows and references.
    - Essential principles inline (can't be skipped)
    - Intake question to determine user intent
    - Routing table mapping intent → workflow
-   - References index with brief descriptions
+   - References index with when-to-read descriptions
    - Templates index (if applicable)
    - Canonical learning_capture block from references/learning-capture.md
+   Done when routing chooses exactly one workflow or documents priority.
 
 4. **Write each workflow**
    For each workflow file:
    - Start with `<required_reading>` block
    - Include only references needed for THIS workflow
    - Write process with appropriate freedom levels
+   - Add completion criterion for each step
    - End with success_criteria
+   Done when every workflow can run without loading unrelated branch context.
 
 5. **Write references**
    For each reference:
    - Keep under 300 lines
    - One level deep only (no nested references)
    - Focus on what Claude doesn't already know
+   Done when each reference has one clear concern and no duplicate canonical rules.
 
 6. **Apply conciseness check to all files**
 
@@ -74,6 +82,7 @@ Create a router-pattern skill with SKILL.md routing to workflows and references.
    - [ ] Root learnings.md exists with parseable entry format
    - [ ] SKILL.md includes learning_capture
    - [ ] Each workflow has `<required_reading>`
+   - [ ] Each workflow step has a completion criterion
    - [ ] References are one level deep
    - [ ] Pure XML throughout
 </process>

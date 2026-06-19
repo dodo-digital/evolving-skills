@@ -116,7 +116,7 @@ Maximum: 400 words. Include specific quotes.
 
 ## Orchestration Flow
 
-Codex supports sub-agents through `spawn_agent`, but the orchestrator may use them only when the user explicitly asks for sub-agents, delegation, or parallel agent work. When that condition is not met, keep the same context-isolation design as a written workflow but execute the work in the main thread. Use `multi_tool_use.parallel` only for independent tool calls such as reads, searches, and status checks.
+Multi-agent coordination uses Task tools natively: TaskCreate for dependencies, TeamCreate for teams, SendMessage for communication.
 
 ```
 Phase 1: Parallel Spawn
@@ -125,8 +125,8 @@ Phase 1: Parallel Spawn
 └── Style Agent → reviews voice patterns
 
 Phase 2: Coordination (optional)
-├── Main thread integrates returned summaries
-├── Adapt based on findings
+├── Agents communicate via SendMessage
+├── Adapt based on others' findings
 └── Resolve conflicts or gaps
 
 Phase 3: Synthesis

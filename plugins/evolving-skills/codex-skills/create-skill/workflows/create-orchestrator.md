@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - references/sub-agent-patterns.md
 - references/context-budget.md
 - references/degrees-of-freedom.md
@@ -38,6 +39,7 @@ Sub-agent isolation:
    - Where does each piece come from? (files, APIs, searches)
    - Can sources be queried in parallel, or are there dependencies?
    - What's the condensed output format for each?
+   Done when each source has an owner, trigger, and output limit.
 
 2. **Design sub-agents**
    For each source, define:
@@ -46,14 +48,16 @@ Sub-agent isolation:
    - Input parameters
    - Output format and word limit (default: 400 words)
    - Example output
+   Done when each sub-agent can run without raw context leaking back to the orchestrator.
 
 3. **Design orchestration flow**
    ```
+   Done when dependencies and parallel-safe branches are explicit.
    Phase 1: Parallel spawn
    └── Independent sub-agents gather context simultaneously
 
    Phase 2: Coordination (optional)
-   └── In Codex, keep coordination in the main thread unless the user explicitly asked for sub-agents.
+   └── Agents communicate via SendMessage if they need to share/adapt
 
    Phase 3: Synthesis
    └── Orchestrator combines summaries into unified context
@@ -64,9 +68,11 @@ Sub-agent isolation:
    Phase 5: Validation (optional)
    └── Validation agent checks output quality
    ```
+   Done when the structure has one orchestration workflow and branch-specific references only where needed.
 
 4. **Write skill structure**
    ```
+   Done when each agent definition has a trigger, prompt, word limit, and output handling rule.
    skill-name/
    ├── SKILL.md
    ├── learnings.md
@@ -104,9 +110,11 @@ Sub-agent isolation:
    Include:
    - Spawn commands with agent types
    - Parallel vs sequential decisions
-   - Agent coordination rules for Codex: use `spawn_agent` only when the user explicitly asked for sub-agents or parallel agent work; otherwise design the workflow for the main thread.
+   - Agent coordination via Task tools (if agents need to coordinate)
    - Synthesis instructions
    - Output generation
+   - Completion criterion for each orchestration step
+   - Validation or escalation criteria
 
 7. **Set context budget**
    ```yaml
@@ -124,6 +132,7 @@ Sub-agent isolation:
    - [ ] Orchestrator never receives raw responses
    - [ ] Root learnings.md exists with parseable entry format
    - [ ] SKILL.md includes learning_capture scoped to execution issues/preferences
+   - [ ] Each workflow step has a completion criterion
 </process>
 
 <success_criteria>

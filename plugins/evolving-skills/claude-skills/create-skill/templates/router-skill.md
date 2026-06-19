@@ -26,7 +26,7 @@ Use for skills with multiple workflows and shared references. SKILL.md max 200 l
 ```markdown
 ---
 name: {skill-name}
-description: {What it does}. Use when {triggers}. {Third person}
+description: {Leading verb + what it does}. Use when {triggers}. {Third person}
 context_budget:
   skill_md: 200
   max_references: {number}
@@ -70,8 +70,8 @@ Ask the user or infer from their request.
 <references_index>
 | Reference | Purpose |
 |-----------|---------|
-| references/{ref-1}.md | {Brief description} |
-| references/{ref-2}.md | {Brief description} |
+| references/{ref-1}.md | Read when {loading condition} |
+| references/{ref-2}.md | Read when {loading condition} |
 </references_index>
 
 <templates_index>
@@ -113,12 +113,15 @@ Use canonical template from references/learning-capture.md.
 <process>
 1. **{Step}** [{freedom level}]
    {Instructions}
+   Done when {completion criterion}.
 
 2. **{Step}** [{freedom level}]
    {Instructions}
+   Done when {completion criterion}.
 
 3. **{Step}** [{freedom level}]
    {Instructions}
+   Done when {completion criterion}.
 </process>
 
 <success_criteria>

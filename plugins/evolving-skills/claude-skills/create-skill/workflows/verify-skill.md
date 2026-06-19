@@ -9,9 +9,9 @@ Verify that a skill's content is still accurate. Skills reference external APIs,
 <process>
 1. **Select skill** [LOW freedom]
    ```bash
-   ls ~/.claude/skills/
+   ls .agents/skills/
    ```
-   Ask which skill to verify.
+   Ask which skill to verify, or infer from the supplied path.
 
 2. **Read and categorize** [MEDIUM freedom]
    Read entire skill (SKILL.md + workflows/ + references/).

@@ -1,6 +1,6 @@
 ---
 name: create-skill
-description: Create Claude Code skills with context engineering built in. Use when building new skills, auditing existing skills, or adding components to skills. Supports four archetypes: simple, router, orchestrator, and reference.
+description: "Create Codex skills with context engineering built in. Use when building new skills, auditing existing skills, or adding components to skills. Supports four archetypes: simple, router, orchestrator, and reference."
 context_budget:
   skill_md: 200
   max_references: 12
@@ -9,38 +9,44 @@ context_budget:
 ---
 
 <objective>
-Create well-structured, context-efficient Claude Code skills that follow progressive disclosure patterns and declare their context budgets.
+Create predictable, context-efficient Codex skills that make agent behavior repeatable without over-constraining judgment.
 </objective>
 
 <essential_principles>
 These principles are non-negotiable for every skill created:
 
-1. **Progressive Disclosure**
+1. **Predictability First**
+   - A skill exists to make the agent follow the same decision process each run
+   - Predictable does not mean identical output; it means stable branching, loading, validation, and completion behavior
+   - Prefer clear criteria over long explanations
+
+2. **Progressive Disclosure**
    - Layer 1: Metadata (name, description) loads at startup (~50 tokens)
    - Layer 2: SKILL.md loads when triggered (max 200 lines for router skills)
    - Layer 3: References/workflows load on-demand during execution
-   - Constraint: "How do I structure so Claude loads only what's needed?"
+   - Constraint: "How do I structure so Codex loads only what's needed?"
 
-2. **Conciseness**
+3. **Conciseness**
    - "The context window is a public good"
-   - Only add context Claude doesn't already have
-   - Every paragraph must justify its token cost
-   - Default assumption: Claude is already very smart
+   - Only add context Codex doesn't already have
+   - Delete no-op, duplicate, sediment, and sprawl content
+   - Default assumption: Codex is already very smart
 
-3. **Pure XML Structure**
+4. **Pure XML Structure**
    - Use XML blocks (`<objective>`, `<process>`) not markdown headings
    - 25% token savings vs markdown
    - Unambiguous section boundaries
 
-4. **Required Reading Pattern**
+5. **Required Reading Pattern**
    - Every workflow declares which references to load
-   - Context is task-specific, not monolithic
+   - Each pointer says when the file should load, not just what it contains
+   - Context is branch-specific, not monolithic
 
-5. **Skill Evolution**
+6. **Skill Evolution**
    - Skills drift out of alignment over months — design for iterative change
    - Stable core (SKILL.md, workflows) + evolving periphery (`learnings.md`, knowledge files)
    - Every new skill includes a root `learnings.md`, a `learnings_md` budget, and a `<learning_capture>` block in SKILL.md
-   - Scripts stay dumb I/O; domain knowledge lives in `.md` files Claude can update
+   - Scripts stay dumb I/O; domain knowledge lives in `.md` files Codex can update
    - See references/skill-evolution.md for patterns
 </essential_principles>
 
@@ -118,21 +124,22 @@ Help user select archetype:
 <references_index>
 | Reference | Purpose |
 |-----------|---------|
-| references/core-principles.md | Context engineering fundamentals |
-| references/context-budget.md | Token budgeting patterns |
-| references/degrees-of-freedom.md | Instruction specificity classification |
-| references/sub-agent-patterns.md | Orchestrator patterns from client-context |
-| references/xml-structure.md | Pure XML best practices |
-| references/validation-checklist.md | Pre-completion checks |
-| references/model-testing.md | Haiku/Sonnet/Opus testing patterns |
-| references/scripts-pattern.md | When and how to use scripts/ folder |
-| references/skill-evolution.md | learnings.md, living knowledge files, self-healing patterns |
-| references/learning-capture.md | Canonical learning_capture block and learnings.md template |
-| references/skill-hooks.md | Frontmatter hooks, Stop hook gotcha, when to escalate to create-hook |
-| references/common-patterns.md | Templates, examples, anti-patterns, validation |
-| references/be-clear-and-direct.md | Clarity, specificity, edge cases, decision criteria |
-| references/skill-structure.md | Directory structure, file organization patterns |
-| references/workflows-and-validation.md | Workflow design, validation scripts, error handling |
+| references/core-principles.md | Read when applying context engineering fundamentals |
+| references/predictability-and-invocation.md | Read when choosing invocation mode, branches, descriptions, or pruning |
+| references/context-budget.md | Read when setting or auditing token/line budgets |
+| references/degrees-of-freedom.md | Read when calibrating specificity for workflow steps |
+| references/sub-agent-patterns.md | Read when designing orchestrator or sub-agent behavior |
+| references/xml-structure.md | Read when checking XML section structure |
+| references/validation-checklist.md | Read when finalizing or auditing a skill |
+| references/model-testing.md | Read when testing a skill across model strengths |
+| references/scripts-pattern.md | Read when adding reusable scripts or validators |
+| references/skill-evolution.md | Read when adding learnings or living knowledge files |
+| references/learning-capture.md | Read when creating `learning_capture` and `learnings.md` |
+| references/skill-hooks.md | Read when adding hooks or fixing unreliable completion |
+| references/common-patterns.md | Read when adding templates, examples, anti-patterns, or validation loops |
+| references/be-clear-and-direct.md | Read when tightening instructions, edge cases, or decision criteria |
+| references/skill-structure.md | Read when designing directories, frontmatter, or file organization |
+| references/workflows-and-validation.md | Read when designing complex workflows, checkpoints, or recovery |
 </references_index>
 
 <templates_index>
@@ -155,27 +162,29 @@ Every skill MUST have valid YAML frontmatter. Validate before completion:
 
 **Required fields:**
 - `name:` - Skill identifier (kebab-case)
-- `description:` - What it does AND when to use (includes trigger phrases)
+- `description:` - What it does AND when to use, unless `disable-model-invocation: true`
 - `context_budget:` - Token budget declaration
 - `learnings_md:` - Learning file budget under `context_budget`
 
 **Validation rules:**
 1. Frontmatter block exists (starts with `---`)
-2. `description:` contains trigger phrases ("Use when...", "Invoke for...")
+2. Model-invoked skills have a front-loaded `description:` with trigger phrases ("Use when...", "Invoke for...")
 3. `context_budget:` declares at minimum `skill_md:` limit
 4. `context_budget:` declares `learnings_md:` limit
-5. Description is functional code - it's how semantic matching finds skills
+5. User-invoked-only skills set `disable-model-invocation: true`
+6. Description is functional code - it's how semantic matching finds skills
 </frontmatter_validation>
 
 <success_criteria>
 - [ ] Skill follows selected archetype structure
 - [ ] SKILL.md under line limit for archetype
 - [ ] Frontmatter has name, description, context_budget
-- [ ] Description includes trigger phrases for semantic matching
+- [ ] Invocation mode is explicit and description fits that mode
 - [ ] context_budget declared in frontmatter
 - [ ] Root `learnings.md` created with parseable entry format
 - [ ] SKILL.md includes `<learning_capture>` defining what to save and what not to save
 - [ ] All workflows have `<required_reading>`
+- [ ] Each process step has a completion criterion
 - [ ] Pure XML structure (no markdown headings in body)
 - [ ] success_criteria uses checkbox format
 </success_criteria>

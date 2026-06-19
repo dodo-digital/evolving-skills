@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - references/context-budget.md
 - references/degrees-of-freedom.md
 - references/be-clear-and-direct.md
@@ -23,36 +24,44 @@ Create a simple skill (SKILL.md max 150 lines plus root learnings.md) for straig
 1. **Gather requirements**
    Ask the user:
    - What does this skill do?
+   - Should the skill be model-invoked or user-invoked only?
    - When should it trigger? (keywords, conditions)
    - What tools does it need?
    - What does success look like?
+   Done when the invocation mode, trigger surface, and success definition are explicit.
 
 2. **Draft the skill**
    Use templates/simple-skill.md as base:
    - Write name (lowercase-with-hyphens, matches directory)
-   - Write description (third person: "what it does AND when to use it")
+   - Write invocation mode (`description:` for model-invoked, `disable-model-invocation: true` for user-invoked only)
    - Set context_budget.skill_md to 150 max
    - Set context_budget.learnings_md to 40 max
    - Write objective (clear goal, under 10 lines)
    - Write quick_start (minimal path, under 20 lines)
-   - Write process (step-by-step, appropriate freedom level)
+   - Write process (step-by-step, appropriate freedom level, completion criterion for each step)
    - Insert canonical `<learning_capture>` from references/learning-capture.md exactly once in SKILL.md
    - Write success_criteria (checkbox format)
+   Done when every body section affects future agent behavior.
 
 3. **Apply conciseness check**
    For each section, ask:
    - [ ] Does Claude need this, or does it already know?
    - [ ] Is this the minimum needed to accomplish the goal?
    - [ ] Could any of this be implied instead of stated?
+   - [ ] Would removing this sentence change execution?
+   - [ ] Is this duplicated in a canonical reference or template?
+   Done when no no-op, duplicate, sediment, or sprawl content remains.
 
 4. **Classify freedom levels**
    For each step in process:
    - High freedom (principles only): creative tasks
    - Medium freedom (patterns): standard work
    - Low freedom (exact scripts): fragile operations
+   Done when each step's specificity matches its fragility.
 
 5. **Write the file**
-   Create `.claude/skills/{name}/SKILL.md` and `.claude/skills/{name}/learnings.md` using references/learning-capture.md
+   Create `.agents/skills/{name}/SKILL.md` and `.agents/skills/{name}/learnings.md` using references/learning-capture.md
+   Done when both files exist and the path matches the active skills root.
 
 6. **Validate**
    - [ ] Under 150 lines
@@ -61,6 +70,7 @@ Create a simple skill (SKILL.md max 150 lines plus root learnings.md) for straig
    - [ ] context_budget includes learnings_md
    - [ ] learning_capture defines what to save and what not to save
    - [ ] learnings.md uses parseable date/trigger/issue/resolution/future_rule entries
+   - [ ] each process step has a completion criterion
    - [ ] success_criteria has checkboxes
 </process>
 

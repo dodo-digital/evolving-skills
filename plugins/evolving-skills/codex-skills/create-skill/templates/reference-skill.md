@@ -28,7 +28,7 @@ Use for domain expertise skills with progressive disclosure. SKILL.md max 100 li
 ```markdown
 ---
 name: {skill-name}
-description: {Domain} patterns and best practices. Use when working with {domain} or {related tasks}.
+description: Navigate {domain} patterns and best practices. Use when working with {domain} or {related tasks}.
 context_budget:
   skill_md: 100
   max_references: 6
@@ -64,10 +64,10 @@ Load only the resources needed for the current task.
 | Resource | Purpose |
 |----------|---------|
 | resources/patterns/README.md | Pattern selector - start here |
-| resources/patterns/{pattern-1}.md | {Brief description} |
-| resources/patterns/{pattern-2}.md | {Brief description} |
-| resources/workflows/{task}.md | {Brief description} |
-| resources/reference/{details}.md | {Brief description} |
+| resources/patterns/{pattern-1}.md | Read when {loading condition} |
+| resources/patterns/{pattern-2}.md | Read when {loading condition} |
+| resources/workflows/{task}.md | Read when {loading condition} |
+| resources/reference/{details}.md | Read when {loading condition} |
 </resources_index>
 
 {Insert canonical <learning_capture> block from references/learning-capture.md}

@@ -30,7 +30,7 @@ Write a LinkedIn post that:
 - Strategy recommendations
 - Any task with multiple valid approaches
 
-**Why:** Over-specifying creative work produces generic output. Codex does better with constraints than scripts.
+**Why:** Over-specifying creative work produces generic output. Claude does better with constraints than scripts.
 
 ## Medium Freedom
 
@@ -56,7 +56,7 @@ Write a LinkedIn post that:
 - Following established conventions
 - Tasks with preferred but flexible approaches
 
-**Why:** Provides guidance without being prescriptive. Codex can adapt to context.
+**Why:** Provides guidance without being prescriptive. Claude can adapt to context.
 
 ## Low Freedom
 
@@ -127,11 +127,11 @@ Different models need different freedom levels:
 
 | Model | Tendency | Adjustment |
 |-------|----------|------------|
-| GPT-5.4-Mini | Needs more guidance | Lower freedom, more explicit |
-| GPT-5.4 | Balanced | Standard freedom levels |
-| GPT-5.5 | Works with principles | Higher freedom, less prescription |
+| Haiku | Needs more guidance | Lower freedom, more explicit |
+| Sonnet | Balanced | Standard freedom levels |
+| Opus | Works with principles | Higher freedom, less prescription |
 
-**Best practice:** Write for GPT-5.4 (medium), test with GPT-5.4-Mini (catches under-specification) and GPT-5.5 (catches over-specification).
+**Best practice:** Write for Sonnet (medium), test with Haiku (catches under-specification) and Opus (catches over-specification).
 
 ## Common Mistakes
 

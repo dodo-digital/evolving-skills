@@ -17,7 +17,7 @@ The SKILL.md and workflows define *what* the skill does. Every generated skill i
 
 ## Pattern 1: Skill-Level Learnings (`learnings.md`)
 
-A file at the skill root that Codex reads before acting and updates after discovering an actionable execution learning.
+A file at the skill root that Claude reads before acting and updates after discovering an actionable execution learning.
 
 ### Structure
 
@@ -35,11 +35,11 @@ Append entries in this parseable shape:
 
 ### How It Works
 
-1. Skill triggers → Codex reads `learnings.md` (if exists)
+1. Skill triggers → Claude reads `learnings.md` (if exists)
 2. Learnings inform execution (preferences override defaults, gotchas prevent known failures)
-3. During execution, Codex hits friction: repeated failed searches, changed data/tool structure, unexpected behavior, resolved errors, or a user correction/preference signal
-4. After task completes → Codex appends one atomic, parseable entry
-5. Next invocation → Codex reads updated learnings, is immediately smarter
+3. During execution, Claude hits friction: repeated failed searches, changed data/tool structure, unexpected behavior, resolved errors, or a user correction/preference signal
+4. After task completes → Claude appends one atomic, parseable entry
+5. Next invocation → Claude reads updated learnings, is immediately smarter
 
 ### Rules for Healthy Learnings
 
@@ -85,7 +85,7 @@ scripts/discover.py      ← Pure I/O: discovers structure, outputs JSON
 references/schema.md     ← Living knowledge: what structure looks like
 ```
 
-The script discovers reality. The knowledge file interprets it. Codex bridges the gap.
+The script discovers reality. The knowledge file interprets it. Claude bridges the gap.
 
 ### Living Knowledge File Structure
 
@@ -115,7 +115,7 @@ The script discovers reality. The knowledge file interprets it. Codex bridges th
 ```
 Normal:     discover.py → compare to schema.md → match → proceed
 Changed:    discover.py → compare to schema.md → diff found →
-            Codex identifies what changed → adapts mapping →
+            Claude identifies what changed → adapts mapping →
             UPDATES schema.md → proceeds
 Unknown:    discover.py → compare to schema.md → unrecognizable →
             STOP → ask user → human confirms → update schema.md

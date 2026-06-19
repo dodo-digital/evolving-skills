@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - templates/workflow-file.md
 </required_reading>
 
@@ -18,26 +19,33 @@ Add a new workflow to an existing router or orchestrator skill.
    - What's different from existing workflows?
    - Which existing references does it need?
    - Does it need new references?
+   - When should this branch run instead of existing workflows?
+   Done when the new branch trigger is distinct or priority is documented.
 
 3. **Write the workflow**
    Create `workflows/{new-workflow}.md`:
    - Start with `<required_reading>` (existing refs + any new)
    - Write objective
    - Write process with appropriate freedom levels
+   - Add completion criterion for each step
    - Write success_criteria
+   Done when the workflow can run without loading unrelated branch context.
 
 4. **Update SKILL.md routing**
    Add entry to routing table:
    ```
    | New intent | workflows/new-workflow.md |
    ```
+   Include priority or disambiguation when intents overlap.
 
 5. **Create any new references needed**
    - Keep under 300 lines
    - Add to references_index in SKILL.md
+   - Use pointers that say when to read the reference
 
 6. **Validate**
    - [ ] Workflow has required_reading
+   - [ ] Workflow has completion criteria for each step
    - [ ] SKILL.md routing updated
    - [ ] New references indexed
    - [ ] Doesn't duplicate existing workflows

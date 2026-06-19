@@ -7,7 +7,7 @@ Use for skills with one clear workflow. SKILL.md max 150 lines plus root learnin
 ```markdown
 ---
 name: {skill-name}
-description: {What it does}. Use when {trigger conditions}. {Third person}
+description: {Leading verb + what it does}. Use when {trigger conditions}. {Third person}
 context_budget:
   skill_md: 150
   learnings_md: 40
@@ -30,12 +30,15 @@ context_budget:
 
 1. **{Step name}** [{HIGH/MEDIUM/LOW} freedom]
    {Instructions for this step}
+   Done when {completion criterion}.
 
 2. **{Step name}** [{freedom level}]
    {Instructions}
+   Done when {completion criterion}.
 
 3. **{Step name}** [{freedom level}]
    {Instructions}
+   Done when {completion criterion}.
 </process>
 
 {Insert canonical <learning_capture> block from references/learning-capture.md}
@@ -76,16 +79,19 @@ Extract decisions made during a task that would help future agents make better c
    - Technical approach selections
    - Trade-off evaluations
    - User preference discoveries
+   Done when 2-5 candidate decisions are identified.
 
 2. **Extract decisions** [HIGH freedom]
    For each decision, capture:
    - What was decided
    - Why (the rationale)
    - Context that informed it
+   Done when each decision has a concrete rationale.
 
 3. **Write to trace** [LOW freedom]
    Append to the trace file at exact path specified.
    Use format: ### Decision: {title}\n**Rationale:** {why}
+   Done when the trace file contains the new entries in the required format.
 </process>
 
 {Insert canonical <learning_capture> block from references/learning-capture.md}

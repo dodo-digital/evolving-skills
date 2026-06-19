@@ -7,8 +7,10 @@ Run through this before completing any skill.
 ### Frontmatter
 - [ ] `name` is lowercase-with-hyphens
 - [ ] `name` matches directory name
-- [ ] `description` is third person
-- [ ] `description` includes "what it does AND when to use it"
+- [ ] Invocation mode is explicit
+- [ ] Model-invoked skills have a third-person `description`
+- [ ] `description` starts with the leading action word and includes what it does plus when to use it
+- [ ] User-invoked-only skills set `disable-model-invocation: true`
 - [ ] `context_budget` is declared
 - [ ] `context_budget.learnings_md` is declared
 
@@ -35,7 +37,8 @@ Run through this before completing any skill.
 
 ### Conciseness
 - [ ] Each section justifies its token cost
-- [ ] No content Codex already knows
+- [ ] No content Claude already knows
+- [ ] No no-op, duplicate, sediment, or sprawl content
 - [ ] Domain knowledge in references, not inline
 
 ### Freedom Levels
@@ -47,11 +50,12 @@ Run through this before completing any skill.
 - [ ] Each under 300 lines
 - [ ] Self-contained (no dependencies)
 - [ ] One level deep (direct links from SKILL.md)
-- [ ] Indexed in SKILL.md
+- [ ] Indexed in SKILL.md with when-to-read pointer
 
 ### Workflows
 - [ ] Each has `<required_reading>` block
 - [ ] Each has `<success_criteria>`
+- [ ] Each process step has a completion criterion
 - [ ] Process steps are clear
 
 ## AI-ism Check (for content skills)

@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - references/learning-capture.md
 - templates/router-skill.md
 </required_reading>
@@ -21,6 +22,8 @@ Convert a simple skill to a router-pattern skill with workflows and references.
    - Identify distinct process flows (become workflows)
    - Identify reusable knowledge (becomes references)
    - Identify output structures (become templates)
+   - Identify which content every branch needs vs only one branch needs
+   Done when every existing section has a target location.
 
 2. **Plan the split**
    ```
@@ -38,8 +41,9 @@ Convert a simple skill to a router-pattern skill with workflows and references.
 
 3. **Create directory structure**
    ```bash
-   mkdir -p .claude/skills/{name}/{workflows,references,templates}
+   mkdir -p .agents/skills/{name}/{workflows,references,templates}
    ```
+   Use the active skills root for the project if it differs.
 
 4. **Extract workflows**
    For each distinct flow:
@@ -47,18 +51,20 @@ Convert a simple skill to a router-pattern skill with workflows and references.
    - Add `<required_reading>` block
    - Move relevant process steps
    - Add flow-specific success_criteria
+   - Add completion criterion for each step
 
 5. **Extract references**
    For reusable knowledge:
    - Create reference file
    - Keep under 300 lines
+   - Add a when-to-read pointer in SKILL.md
    - Remove from SKILL.md
 
 6. **Rewrite SKILL.md as router**
    - Keep essential_principles inline
    - Add intake question
    - Add routing table
-   - Add references_index
+   - Add references_index with when-to-read pointers
    - Add templates_index
    - Keep general success_criteria
 
@@ -74,8 +80,10 @@ Convert a simple skill to a router-pattern skill with workflows and references.
 8. **Validate**
    - [ ] SKILL.md under 200 lines
    - [ ] All workflows have required_reading
+   - [ ] Each workflow step has completion criterion
    - [ ] No orphaned content
    - [ ] Routing covers all use cases
+   - [ ] References have when-to-read pointers
    - [ ] learnings.md and learning_capture are present
 </process>
 

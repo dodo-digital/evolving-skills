@@ -1,5 +1,6 @@
 <required_reading>
 - references/core-principles.md
+- references/predictability-and-invocation.md
 - references/context-budget.md
 - references/be-clear-and-direct.md
 - references/common-patterns.md
@@ -34,6 +35,7 @@ Progressive disclosure for domain knowledge:
    - What are the main topic areas?
    - What are common queries/use cases?
    - What patterns or workflows exist?
+   Done when each topic maps to a branch, pattern, workflow, or reference.
 
 2. **Organize into resources**
    Group knowledge by:
@@ -41,9 +43,11 @@ Progressive disclosure for domain knowledge:
    - Patterns (if applicable)
    - Workflows (step-by-step guides)
    - Examples (real usage samples)
+   Done when each resource has one reason to load and no resource needs another resource to make sense.
 
 3. **Design structure**
    ```
+   Done when SKILL.md is an index and all branch-specific knowledge is in resources.
    skill-name/
    ├── SKILL.md              # Index only (~100 lines)
    ├── learnings.md          # Execution learnings for future runs
@@ -64,6 +68,7 @@ Progressive disclosure for domain knowledge:
    - Resource index with one-line descriptions
    - How to navigate (which resource for which need)
    - Canonical learning_capture block from references/learning-capture.md
+   Done when every pointer says when to load the resource.
 
 5. **Write resources**
    For each resource file:
@@ -71,12 +76,14 @@ Progressive disclosure for domain knowledge:
    - Self-contained (no dependencies on other resources)
    - Include practical examples
    - One level deep only
+   Done when resources stay self-contained and under budget.
 
 6. **Add pattern selector (if patterns exist)**
    Create resources/patterns/README.md:
    - List all patterns with when-to-use
    - User selects pattern → that file loads
    - Other patterns stay on disk
+   Done when selection criteria are mutually exclusive or prioritized.
 
 7. **Validate**
    - [ ] SKILL.md under 100 lines
@@ -85,6 +92,7 @@ Progressive disclosure for domain knowledge:
    - [ ] Resources are self-contained
    - [ ] No nested references
    - [ ] Clear navigation from index
+   - [ ] Each resource pointer says when to read it
 </process>
 
 <example_structure>

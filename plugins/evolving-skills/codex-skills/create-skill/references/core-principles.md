@@ -32,16 +32,16 @@ Layer 3: Supporting files
 └── Zero tokens until needed
 ```
 
-**Key insight:** The constraint isn't "how much can I include?" but "how do I structure so Codex loads only what's needed?"
+**Key insight:** The constraint isn't "how much can I include?" but "how do I structure so Claude loads only what's needed?"
 
 ## 2. Conciseness Principle
 
 > "The context window is a public good."
 
-**Default assumption:** Codex is already very smart.
+**Default assumption:** Claude is already very smart.
 
 **Before adding any content, ask:**
-- Does Codex need this explanation, or does it already know?
+- Does Claude need this explanation, or does it already know?
 - Can this be in a reference file instead of inline?
 - Is this the minimum needed to accomplish the goal?
 - Does this paragraph justify its token cost?
@@ -80,7 +80,7 @@ Step-by-step instructions
 - 25% token savings vs markdown headings
 - Unambiguous section boundaries
 - Consistent parsing across all skills
-- Better Codex performance (less inference)
+- Better Claude performance (less inference)
 
 ## 4. Required Reading Pattern
 
@@ -110,7 +110,7 @@ Bad:
 SKILL.md → references/index.md → references/actual-content.md
 ```
 
-**Why:** Codex may use `head -100` to preview rather than reading complete files. Nested references break this.
+**Why:** Claude may use `head -100` to preview rather than reading complete files. Nested references break this.
 
 ## 6. Essential Principles Inline
 
@@ -128,7 +128,7 @@ Put it inline in SKILL.md, not in a reference. It loads automatically when the s
 | Principle | Implementation |
 |-----------|----------------|
 | Progressive disclosure | Layers 1→2→3, load on demand |
-| Conciseness | Only add what Codex doesn't know |
+| Conciseness | Only add what Claude doesn't know |
 | Pure XML | `<blocks>` not `## Headings` |
 | Required reading | Explicit in each workflow |
 | One level deep | Direct links only |
